@@ -69,13 +69,15 @@ A React single-page app on a static edge, a Node.js API, and Ethereum for token-
 
 ## Repositories
 
-Agora is built across three repositories. The application source is kept **private** for security; the sections below describe each component. If you'd like to contribute or collaborate, reach out at **[contact@moss.land](mailto:contact@moss.land)** for access.
+Agora is built across the repositories below. The application source is kept **private** for security; the sections describe each component. If you'd like to contribute or collaborate, reach out at **[contact@moss.land](mailto:contact@moss.land)** for access.
 
 | Repository | Role |
 |---|---|
-| **[Agora_frontend](https://github.com/MosslandCore/Agora_frontend)** | The MOC-holder-facing governance dApp — forum, proposals, gasless voting, profiles. Deployed at [agora.moss.land](https://agora.moss.land). |
+| **[Agora_frontend](https://github.com/MosslandCore/Agora_frontend)** | The MOC-holder-facing governance dApp — forum, proposals, gasless voting, profiles, plus role-gated admin tools going forward. Deployed at [agora.moss.land](https://agora.moss.land). |
 | **[Agora_backend](https://github.com/MosslandCore/Agora_backend)** | The API service — auth, proposals, voting, forums, AI briefs, and the Passport (Governance Pack) integration. |
-| **[Agora_frontend_dashboard](https://github.com/MosslandCore/Agora_frontend_dashboard)** | The internal admin console for managing proposals, moderation, and DAO operations. |
+| **[Agora_frontend_dashboard](https://github.com/MosslandCore/Agora_frontend_dashboard)** _(archiving)_ | The standalone admin console — proposal management, moderation, and DAO operations. |
+
+> ℹ️ **Admin tools are being consolidated into the main Agora frontend** as a role-gated, in-app admin area. Once that migration is complete, the standalone admin console and its **Agora_frontend_dashboard** repo will be **retired and archived** — there is no separate admin app or domain going forward.
 
 We welcome contributors with expertise in front-end and back-end development, Web3 integration, or UI/UX design. Join us to shape the future of Mossland DAO!
 
@@ -157,7 +159,7 @@ Research & development strategy:
 
 #### Week 2 (3/18–3/26)
 - [x] Finalized front-end UI of the Agora admin dashboard; resolved outstanding UI/functionality questions
-- [x] Deployed internal dev environment for admin dashboard QA — [Demo](https://mossland-admin.vercel.app/dashboard/)
+- [x] Deployed internal dev environment for admin dashboard QA
 - [x] Shared admin dashboard code with the Mossland team via GitHub
 - [x] Set up services for the Agora backend (email accounts, MongoDB, Luniverse blockchain node)
 
