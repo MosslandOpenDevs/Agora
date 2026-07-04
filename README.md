@@ -73,11 +73,11 @@ Agora is built across the repositories below. The application source is kept **p
 
 | Repository | Role |
 |---|---|
-| **[Agora_frontend](https://github.com/MosslandCore/Agora_frontend)** | The MOC-holder-facing governance dApp — forum, proposals, gasless voting, profiles, plus role-gated admin tools going forward. Deployed at [agora.moss.land](https://agora.moss.land). |
+| **[Agora_frontend](https://github.com/MosslandCore/Agora_frontend)** | The MOC-holder-facing governance dApp — forum, proposals, gasless voting, profiles, and a role-gated in-app admin area. Deployed at [agora.moss.land](https://agora.moss.land). |
 | **[Agora_backend](https://github.com/MosslandCore/Agora_backend)** | The API service — auth, proposals, voting, forums, AI briefs, and the Passport (Governance Pack) integration. |
-| **[Agora_frontend_dashboard](https://github.com/MosslandCore/Agora_frontend_dashboard)** _(archiving)_ | The standalone admin console — proposal management, moderation, and DAO operations. |
+| **[Agora_frontend_dashboard](https://github.com/MosslandCore/Agora_frontend_dashboard)** _(deprecated · retired)_ | The former standalone admin console — now superseded by the in-app admin area in the main frontend. |
 
-> ℹ️ **Admin tools are being consolidated into the main Agora frontend** as a role-gated, in-app admin area. Once that migration is complete, the standalone admin console and its **Agora_frontend_dashboard** repo will be **retired and archived** — there is no separate admin app or domain going forward.
+> ℹ️ **Admin tools have been consolidated into the main Agora frontend** as a role-gated, in-app admin area. The former standalone admin console has been **retired**, and its **Agora_frontend_dashboard** repo is **deprecated and no longer maintained** (superseded by the in-app admin area) — there is no separate admin app or domain.
 
 We welcome contributors with expertise in front-end and back-end development, Web3 integration, or UI/UX design. Join us to shape the future of Mossland DAO!
 
