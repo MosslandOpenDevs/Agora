@@ -1,12 +1,12 @@
 # Agora — Mossland Public Decision System
 
-**Agora** is **Mossland DAO's official public decision layer** — the place where **Mossland Coin (MOC)** holders **discuss**, **propose**, and **vote (gasless)** on the decisions that shape Mossland. Votes are gasless, **EIP-712** signed, and weighted by each voter's MOC balance at a fixed **snapshot block**; unless a proposal explicitly says otherwise, **Mossland DAO treats an Agora result as its binding decision of record.** Agora is **not** an on-chain transaction-voting app — it is a **verifiable off-chain voting and decision-record system**, upholding the values of openness, collaboration, and innovation at the heart of the community.
+**Agora** is **Mossland DAO's official public decision layer** — the place where **Mossland Coin (MOC)** holders **discuss**, **propose**, and **vote (gasless)** on the decisions that shape Mossland. Votes are gasless, **EIP-712** signed, and weighted by each voter's **MOC voting power** at a fixed **snapshot block**; unless a proposal explicitly says otherwise, **Mossland DAO treats an Agora result as its binding decision of record.** Agora is **not** an on-chain transaction-voting app — it is a **verifiable off-chain voting and decision-record system**, upholding the values of openness, collaboration, and innovation at the heart of the community.
 
 **🔗 Live app: [agora.moss.land](https://agora.moss.land)**
 
 > ### What Agora is / is not
 >
-> - ✅ **Is** — Mossland DAO's official public decision system: verifiable, gasless, off-chain (Snapshot-style) signed voting, weighted by MOC balance at a fixed snapshot block, and independently re-verifiable by anyone.
+> - ✅ **Is** — Mossland DAO's official public decision system: verifiable, gasless, off-chain (Snapshot-style) signed voting, weighted by MOC voting power at a fixed snapshot block, and independently re-verifiable by anyone.
 > - ✅ **Is** — the DAO's binding decision layer and system of record: unless a proposal states otherwise, the DAO treats an Agora result as its binding decision.
 > - ❌ **Is not** — an on-chain transaction-voting app. Voters never submit an Ethereum transaction to vote; they sign a message off-chain, and there is no gas.
 > - ❌ **Is not** — a DAO treasury or token contract. Agora records decisions; it does not custody funds or move tokens on your behalf.
@@ -43,7 +43,7 @@ Agora emits **cryptographically signed participation events** to Passport and ho
 
 ## Key features
 
-- **🗳️ Gasless voting** — cast **For / Against / Abstain** with a single wallet **signature** (EIP-712) — **no transaction, no gas**. Votes are weighted by each voter's MOC balance at the proposal's fixed **snapshot block** (Snapshot.org-style) and are **independently re-verifiable by anyone**.
+- **🗳️ Gasless voting** — cast **For / Against / Abstain** with a single wallet **signature** (EIP-712) — **no transaction, no gas**. Votes are weighted by each voter's **delegated MOC voting power** at the proposal's fixed **snapshot block** (Snapshot-style) — with a raw-balance fallback for holders who've never delegated — and are **independently re-verifiable by anyone**.
 - **📝 Proposals** — create rich-text proposals (off-chain, no gas), browse, and follow a transparent lifecycle: *In Review → Approved → Voting → Closed*.
 - **💬 Forum** — topics with categories, comments, likes, reports, and view counts for open community discussion.
 - **🔐 Wallet login (SIWE)** — one-click connect and a single **SIWE (EIP-4361)** signature; no passwords, no gas, no chain switching. Sessions ride on a secure HttpOnly cookie.
@@ -57,8 +57,8 @@ Voting is **off-chain and gasless**, in the style of [Snapshot](https://snapshot
 
 1. When an admin **approves** a proposal, the backend locks its **snapshot block** to the current Ethereum-mainnet block.
 2. A voter signs an **EIP-712** vote (`proposalId`, `choice`, `snapshotBlock`) with one wallet prompt — no transaction, no gas.
-3. The backend verifies the signature and derives the vote's weight from **`MOC.balanceOf(voter)` at the snapshot block** — so weight can't be forged or bought after the fact.
-4. Each vote stores its signature and snapshot block, so **anyone can independently re-verify it** by recovering the signer and recomputing the balance at that block.
+3. The backend verifies the signature and derives the vote's weight from the voter's **delegated MOC voting power** at the snapshot block — `MOC.getPastVotes(voter, snapshotBlock)` on the `ERC20Votes` token, falling back to `MOC.balanceOf(voter)` for a holder who has never delegated — so weight can't be forged or bought after the fact.
+4. Each vote stores its signature and snapshot block, so **anyone can independently re-verify it** by recovering the signer and recomputing that on-chain voting power at that block.
 
 Unless a proposal explicitly states otherwise, **Mossland DAO treats the closed result as its binding decision of record** — even though no on-chain transaction was cast to vote.
 
@@ -88,7 +88,7 @@ A React single-page app on a static edge, a Node.js API, and Ethereum for MOC to
 |---|---|
 | **Frontend** | React 18 SPA · Vite · TypeScript · MUI · **ethers v6** · hosted on AWS S3 + CloudFront |
 | **Backend** | Node.js 24 · Express · MongoDB (Atlas) · **ethers** · containerized on AWS |
-| **Web3** | Ethereum mainnet · MOC ERC-20 (`ERC20Votes` + `Permit`) · **gasless EIP-712 off-chain voting**; vote weight read on-chain from MOC balance at a snapshot block |
+| **Web3** | Ethereum mainnet · MOC ERC-20 (`ERC20Votes` + `Permit`) · **gasless EIP-712 off-chain voting**; vote weight read on-chain from delegated MOC voting power (`ERC20Votes`) at a snapshot block, with a raw-balance fallback |
 | **Auth** | **SIWE (EIP-4361)** wallet login · single-use nonce · HttpOnly-cookie sessions · no passwords |
 | **AI (MAIT)** | **Anthropic Claude** (governance briefs) · Google **Gemini** (proposal drafting) — Agora's internal AI layer |
 | **Governance Pack** | **Ed25519**-signed participation events to Passport (durable outbox) · AI brief pipeline |
