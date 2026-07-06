@@ -1,36 +1,45 @@
-# Agora — Mossland DAO Governance
+# Agora — Mossland Public Decision System
 
-**Agora** is the decentralized governance app of the **Mossland (MOC)** ecosystem — where Mossland Coin holders **discuss**, **propose**, and **vote (gasless)** on the decisions that shape Mossland. It is the **binding decision layer and system of record** for Mossland DAO, upholding the values of openness, collaboration, and innovation at the heart of the community.
+**Agora** is **Mossland DAO's official public decision layer** — the place where **Mossland Coin (MOC)** holders **discuss**, **propose**, and **vote (gasless)** on the decisions that shape Mossland. Votes are gasless, **EIP-712** signed, and weighted by each voter's MOC balance at a fixed **snapshot block**; unless a proposal explicitly says otherwise, **Mossland DAO treats an Agora result as its binding decision of record.** Agora is **not** an on-chain transaction-voting app — it is a **verifiable off-chain voting and decision-record system**, upholding the values of openness, collaboration, and innovation at the heart of the community.
 
 **🔗 Live app: [agora.moss.land](https://agora.moss.land)**
+
+> ### What Agora is / is not
+>
+> - ✅ **Is** — Mossland DAO's official public decision system: verifiable, gasless, off-chain (Snapshot-style) signed voting, weighted by MOC balance at a fixed snapshot block, and independently re-verifiable by anyone.
+> - ✅ **Is** — the DAO's binding decision layer and system of record: unless a proposal states otherwise, the DAO treats an Agora result as its binding decision.
+> - ❌ **Is not** — an on-chain transaction-voting app. Voters never submit an Ethereum transaction to vote; they sign a message off-chain, and there is no gas.
+> - ❌ **Is not** — a DAO treasury or token contract. Agora records decisions; it does not custody funds or move tokens on your behalf.
 
 ---
 
 ## Purpose
 
-Agora is the democratic heart of Mossland DAO: a platform for members to **propose, discuss, and vote** on key decisions — fund allocation, project direction, community initiatives, and more. Every voice in the community is heard, and every MOC holder has the power to shape the future of Mossland.
+Agora is the democratic heart of Mossland DAO: a platform for members to **propose, discuss, and vote** on key decisions — fund allocation, project direction, community initiatives, and more. Every voice in the community is heard, and every MOC holder has the power to shape the future of Mossland. Voting is **off-chain and gasless**, but the outcome is authoritative: it is the DAO's binding decision of record.
 
 ## Where Agora sits — the Mossland governance stack
 
-Mossland runs a **three-layer governance stack**, and Agora is the **binding decision layer**:
+Mossland runs a **three-layer governance stack**, and Agora is the **binding decision layer** — the layer that produces Mossland DAO's decisions of record:
 
 | Layer | What it does |
 |---|---|
 | **[Passport](https://passport.moss.land)** | Wallet verification, eligibility, and the participation ledger — signature-only, gas-free. |
-| **Agora** *(this project)* | Formal, MOC-weighted proposals + **gasless off-chain voting**. **Binding.** |
+| **Agora** *(this project)* | Formal, MOC-weighted proposals + **gasless off-chain voting**. Results are the DAO's **binding** decisions of record. |
 | **[Algora](https://algora.moss.land)** | Experimental 24/7 AI deliberation that feeds recommendations into Agora's human vote — *"AI recommends, humans decide."* |
 
 ```mermaid
 flowchart LR
     P["🛂 Passport<br/>eligibility &<br/>participation ledger"]
-    A["🏛️ Agora<br/>proposals &<br/>gasless voting<br/><b>(binding)</b>"]
+    A["🏛️ Agora<br/>proposals &<br/>gasless off-chain voting<br/><b>(binding decision of record)</b>"]
     AL["🤖 Algora<br/>24/7 AI<br/>deliberation"]
     P -- "verifies voters" --> A
     AL -- "recommends" --> A
     A -- "signed participation events" --> P
 ```
 
-Agora emits **cryptographically signed participation events** to Passport and hosts the **AI proposal-brief** pipeline (absorbed from the sunset DAO-MAIT service) — together the **Governance Pack**.
+Agora emits **cryptographically signed participation events** to Passport and hosts the **AI proposal-brief** pipeline — together the **Governance Pack** (see below).
+
+**MAIT is not a separate app** — it is **Agora's internal AI layer** (AI proposal drafting, summaries, and governance briefs). The AI brief pipeline was absorbed from the sunset DAO-MAIT service, and **[mait.moss.land](https://mait.moss.land) redirects to Agora**.
 
 ## Key features
 
@@ -38,32 +47,50 @@ Agora emits **cryptographically signed participation events** to Passport and ho
 - **📝 Proposals** — create rich-text proposals (off-chain, no gas), browse, and follow a transparent lifecycle: *In Review → Approved → Voting → Closed*.
 - **💬 Forum** — topics with categories, comments, likes, reports, and view counts for open community discussion.
 - **🔐 Wallet login (SIWE)** — one-click connect and a single **SIWE (EIP-4361)** signature; no passwords, no gas, no chain switching. Sessions ride on a secure HttpOnly cookie.
-- **✨ AI proposal drafting** — generate proposal and topic drafts with an AI assistant while writing.
+- **✨ AI proposal drafting** — generate proposal and topic drafts with an AI assistant (MAIT, Agora's internal AI layer) while writing.
 - **🧠 AI governance briefs** — neutral, extractive summaries of proposals generated by **Claude Opus 4.8** (with a Claude Sonnet → Gemini fallback), bound to the proposal's content hash so a brief always matches what it summarizes.
 - **👤 Profiles** — MOC balance, voting history with explorer links, authored proposals/topics, and a selectable pixel-art character PFP.
 
 ## How voting works — gasless & verifiable
 
-Voting is **off-chain and gasless**, in the style of [Snapshot](https://snapshot.org):
+Voting is **off-chain and gasless**, in the style of [Snapshot](https://snapshot.org) — voters never submit an on-chain transaction, yet Mossland DAO treats the tallied result as its **binding decision of record**:
 
 1. When an admin **approves** a proposal, the backend locks its **snapshot block** to the current Ethereum-mainnet block.
 2. A voter signs an **EIP-712** vote (`proposalId`, `choice`, `snapshotBlock`) with one wallet prompt — no transaction, no gas.
 3. The backend verifies the signature and derives the vote's weight from **`MOC.balanceOf(voter)` at the snapshot block** — so weight can't be forged or bought after the fact.
 4. Each vote stores its signature and snapshot block, so **anyone can independently re-verify it** by recovering the signer and recomputing the balance at that block.
 
+Unless a proposal explicitly states otherwise, **Mossland DAO treats the closed result as its binding decision of record** — even though no on-chain transaction was cast to vote.
+
 The governance token is **MOC**, an Ethereum-mainnet ERC-20 (`ERC20Votes` + `Permit`, CertiK-audited); the legacy Luniverse MOC was retired ahead of the mainnet migration. The earlier on-chain voting contract is no longer used for new votes — it is retained only to close pre-migration on-chain proposals, which still link out to their original transactions on a block explorer.
+
+## Governance Pack — participation proofs to Passport
+
+Because Agora is Mossland DAO's official decision layer, the events it emits to **[Passport](https://passport.moss.land)** are **governance-activity proofs** — a record of what a member actually *did* in governance, not a mere "connected to Agora" badge. After a member consents, Agora signs each participation event with **Ed25519** and delivers it through a **durable outbox**. Passport records **only post-consent** activity, and **raw comment text is never stored** — only a content **hash + URL**.
+
+The emitted events are distinct governance actions of differing weight, strongest signal first:
+
+| Event | Meaning | Signal |
+|---|---|---|
+| Proposal approved / MIP accepted | A proposal cleared governance | **Very strong** |
+| `agora_proposal_created` | Member authored a proposal | **Strong** |
+| `agora_vote_cast` | Member cast a vote | **Strong** |
+| `agora_comment_created` | Member commented (hash + URL only) | **Medium** |
+| `agora_connected` | Member connected / consented | **Weak** — a one-time ceremony, not an activity |
+
+Passport and Agora are joined **only by wallet address + signatures** — the two services do **not** merge accounts or data. The Governance Pack also includes the **AI brief pipeline** (see *AI governance briefs* above).
 
 ## Architecture & tech
 
-A React single-page app on a static edge, a Node.js API, and Ethereum for token-weighted, verifiable voting.
+A React single-page app on a static edge, a Node.js API, and Ethereum for MOC token-weighting behind gasless, verifiable off-chain voting.
 
 | Area | Stack |
 |---|---|
 | **Frontend** | React 18 SPA · Vite · TypeScript · MUI · **ethers v6** · hosted on AWS S3 + CloudFront |
 | **Backend** | Node.js 24 · Express · MongoDB (Atlas) · **ethers** · containerized on AWS |
-| **Web3** | Ethereum mainnet · MOC ERC-20 (`ERC20Votes` + `Permit`) · **gasless EIP-712 voting** with on-chain snapshot weighting |
+| **Web3** | Ethereum mainnet · MOC ERC-20 (`ERC20Votes` + `Permit`) · **gasless EIP-712 off-chain voting**; vote weight read on-chain from MOC balance at a snapshot block |
 | **Auth** | **SIWE (EIP-4361)** wallet login · single-use nonce · HttpOnly-cookie sessions · no passwords |
-| **AI** | **Anthropic Claude** (governance briefs) · Google **Gemini** (proposal drafting) |
+| **AI (MAIT)** | **Anthropic Claude** (governance briefs) · Google **Gemini** (proposal drafting) — Agora's internal AI layer |
 | **Governance Pack** | **Ed25519**-signed participation events to Passport (durable outbox) · AI brief pipeline |
 | **Abuse / analytics** | Google reCAPTCHA v3 (server-verified on votes) · Google Analytics |
 
