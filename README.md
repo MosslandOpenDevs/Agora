@@ -1,5 +1,7 @@
 # Agora — Mossland Public Decision System
 
+> **Status of this repository:** **`Lifecycle: Beta`** (운영 중, 변동 가능) — per [MIP-1](https://agora.moss.land/proposals/6a85129f8be190cf5d2ebcc1), ratified 2026-09-02, and the [links.moss.land registry](https://links.moss.land/ecosystem-registry.json) entry `agora`. MIP-1 Annex A Core candidate, published as Beta per Annex A's own rule: second maintainer not yet designated (Art. 3 exception, recorded here). Promote to core once maintainer and secondMaintainer are both named individuals with deploy and recovery rights.
+
 **Agora** is **Mossland DAO's official public decision layer** — the place where **Mossland Coin (MOC)** holders **discuss**, **propose**, and **vote (gasless)** on the decisions that shape Mossland. Votes are gasless, **EIP-712** signed, and weighted by each voter's **MOC voting power** at a fixed **snapshot block**; unless a proposal explicitly says otherwise, **Mossland DAO treats an Agora result as its binding decision of record.** Agora is **not** an on-chain transaction-voting app — it is a **verifiable off-chain voting and decision-record system**, upholding the values of openness, collaboration, and innovation at the heart of the community.
 
 **🔗 Live app: [agora.moss.land](https://agora.moss.land)**
