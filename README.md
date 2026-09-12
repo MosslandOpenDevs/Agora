@@ -1,5 +1,10 @@
 # Agora — Mossland Public Decision System
 
+<!-- opendevs-badges:start -->
+[![Lifecycle: Beta](https://img.shields.io/badge/Lifecycle-Beta-3b82f6?style=flat)](https://links.moss.land/ecosystem-registry.json)
+[![Website: agora.moss.land](https://img.shields.io/badge/Website-agora.moss.land-2563eb?style=flat)](https://agora.moss.land/)
+<!-- opendevs-badges:end -->
+
 > **Status of this repository:** **`Lifecycle: Beta`** (운영 중, 변동 가능) — per [MIP-1](https://agora.moss.land/proposals/6a85129f8be190cf5d2ebcc1), ratified 2026-09-02, and the [links.moss.land registry](https://links.moss.land/ecosystem-registry.json) entry `agora`. MIP-1 Annex A Core candidate, published as Beta per Annex A's own rule: second maintainer not yet designated (Art. 3 exception, recorded here). Promote to core once maintainer and secondMaintainer are both named individuals with deploy and recovery rights.
 
 **Agora** is **Mossland DAO's official public decision layer** — the place where **Mossland Coin (MOC)** holders **discuss**, **propose**, and **vote (gasless)** on the decisions that shape Mossland. Votes are gasless, **EIP-712** signed, and weighted by each voter's **MOC voting power** at a fixed **snapshot block**; unless a proposal explicitly says otherwise, **Mossland DAO treats an Agora result as its binding decision of record.** Agora is **not** an on-chain transaction-voting app — it is a **verifiable off-chain voting and decision-record system**, upholding the values of openness, collaboration, and innovation at the heart of the community.
@@ -27,15 +32,15 @@ Mossland runs a **three-layer governance stack**, and Agora is the **binding dec
 |---|---|
 | **[Passport](https://passport.moss.land)** | Wallet verification, eligibility, and the participation ledger — signature-only, gas-free. |
 | **Agora** *(this project)* | Formal, MOC-weighted proposals + **gasless off-chain voting**. Results are the DAO's **binding** decisions of record. |
-| **[Algora](https://algora.moss.land)** | Experimental 24/7 AI deliberation that feeds recommendations into Agora's human vote — *"AI recommends, humans decide."* |
+| **[Algora](https://algora.moss.land)** | Archived AI deliberation experiment; its domain and published records are preserved under [MIP-1](https://links.moss.land/ecosystem-registry.json). |
 
 ```mermaid
 flowchart LR
     P["🛂 Passport<br/>eligibility &<br/>participation ledger"]
     A["🏛️ Agora<br/>proposals &<br/>gasless off-chain voting<br/><b>(binding decision of record)</b>"]
-    AL["🤖 Algora<br/>24/7 AI<br/>deliberation"]
+    AL["🤖 Algora<br/>archived deliberation<br/>records"]
     P -- "verifies voters" --> A
-    AL -- "recommends" --> A
+    AL -. "historical reference" .-> A
     A -- "signed participation events" --> P
 ```
 
